@@ -1,9 +1,9 @@
-import "./App.css";
+import NotebookList from "./components/NotebookList";
 
 function App() {
   return (
-    <div className="App">
-      <h1>this is the front -end for the notebook</h1>
+    <div>
+      <NotebookList />
     </div>
   );
 }
