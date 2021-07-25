@@ -2,21 +2,23 @@ import { makeAutoObservable } from "mobx";
 import axios from "axios";
 
 class NotebookStore {
-  tasks = [];
+  notebooks = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  notebookFetch = async () => {
+  //Fetch
+  fetchNotebooks = async () => {
     try {
       const response = await axios.get("http://localhost:8000/notebooks");
       this.notebooks = response.data;
     } catch (error) {
-      console.error("notebookFetch:", error);
+      console.error("fetchNotebooks:", error);
     }
   };
 
+  // Create Notebook
   notebookCreate = async (newNotebook) => {
     try {
       const res = await axios.post(
@@ -29,22 +31,7 @@ class NotebookStore {
     }
   };
 
-  notebookUpdate = async (notebookUpdate) => {
-    try {
-      await axios.put(
-        `http://localhost:8000/notebooks/${notebookUpdate.id}`,
-        notebookUpdate
-      );
-      const notebook = this.notebooks.find(
-        (notebook) => notebook.id === notebookUpdate.id
-      );
-      notebook.status = notebookUpdate.status;
-      notebook.priority = notebookUpdate.priority;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+  //Delete
   notebookDelete = async (notebookId) => {
     try {
       await axios.delete(`http://localhost:8000/notebooks/${notebookId}`);
@@ -58,5 +45,5 @@ class NotebookStore {
 }
 
 const notebookStore = new NotebookStore();
-notebookStore.notebookFetch();
+notebookStore.fetchNotebooks();
 export default notebookStore;
